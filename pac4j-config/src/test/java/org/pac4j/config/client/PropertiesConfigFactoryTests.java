@@ -3,7 +3,6 @@ package org.pac4j.config.client;
 import com.nimbusds.oauth2.sdk.auth.ClientAuthenticationMethod;
 import org.junit.Test;
 import org.ldaptive.provider.jndi.JndiProvider;
-import org.opensaml.saml.common.xml.SAMLConstants;
 import org.pac4j.cas.client.CasClient;
 import org.pac4j.cas.config.CasProtocol;
 import org.pac4j.core.client.Clients;
@@ -23,8 +22,6 @@ import org.pac4j.oauth.client.FacebookClient;
 import org.pac4j.oauth.client.TwitterClient;
 import org.pac4j.oidc.client.GoogleOidcClient;
 import org.pac4j.oidc.client.OidcClient;
-import org.pac4j.saml.client.SAML2Client;
-import org.pac4j.saml.config.SAML2Configuration;
 import org.pac4j.sql.profile.service.DbProfileService;
 import org.pac4j.sql.test.tools.DbServer;
 
@@ -59,12 +56,6 @@ public final class PropertiesConfigFactoryTests implements TestsConstants {
             properties.put(TWITTER_SECRET, SECRET);
             properties.put(CAS_LOGIN_URL, CALLBACK_URL);
             properties.put(CAS_PROTOCOL, CasProtocol.CAS20.toString());
-            properties.put(SAML_KEYSTORE_PASSWORD, PASSWORD);
-            properties.put(SAML_PRIVATE_KEY_PASSWORD, PASSWORD);
-            properties.put(SAML_KEYSTORE_PATH, PATH);
-            properties.put(SAML_IDENTITY_PROVIDER_METADATA_PATH, PATH);
-            properties.put(SAML_AUTHN_REQUEST_BINDING_TYPE, SAMLConstants.SAML2_REDIRECT_BINDING_URI);
-            properties.put(SAML_KEYSTORE_ALIAS, VALUE);
             properties.put(OIDC_ID, ID);
             properties.put(OIDC_SECRET, SECRET);
             properties.put(OIDC_DISCOVERY_URI, CALLBACK_URL);
@@ -121,7 +112,7 @@ public final class PropertiesConfigFactoryTests implements TestsConstants {
             final PropertiesConfigFactory factory = new PropertiesConfigFactory(CALLBACK_URL, properties);
             final Config config = factory.build();
             final Clients clients = config.getClients();
-            assertEquals(13, clients.getClients().size());
+            assertEquals(12, clients.getClients().size());
 
             final FacebookClient fbClient = (FacebookClient) clients.findClient("FacebookClient").get();
             assertEquals(ID, fbClient.getKey());
@@ -136,12 +127,6 @@ public final class PropertiesConfigFactoryTests implements TestsConstants {
             final CasClient casClient = (CasClient) clients.findClient("CasClient").get();
             assertEquals(CALLBACK_URL, casClient.getConfiguration().getLoginUrl());
             assertEquals(CasProtocol.CAS20, casClient.getConfiguration().getProtocol());
-
-            final SAML2Client saml2client = (SAML2Client) clients.findClient("SAML2Client").get();
-            assertNotNull(saml2client);
-            final SAML2Configuration saml2Config = saml2client.getConfiguration();
-            assertEquals(SAMLConstants.SAML2_REDIRECT_BINDING_URI, saml2Config.getAuthnRequestBindingType());
-            assertEquals(VALUE, saml2Config.getKeyStoreAlias());
 
             final OidcClient oidcClient = (OidcClient) clients.findClient("OidcClient").get();
             assertNotNull(oidcClient);

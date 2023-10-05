@@ -74,11 +74,6 @@ public class PropertiesConfigFactory extends AbstractBuilder implements ConfigFa
             oAuthBuilder.tryCreateLinkedInClient(clients);
             oAuthBuilder.tryCreateGenericOAuth2Clients(clients);
         }
-        // pac4j-saml dependency required
-        if (hasSaml2Clients()) {
-            final Saml2ClientBuilder saml2ClientBuilder = new Saml2ClientBuilder(properties);
-            saml2ClientBuilder.tryCreateSaml2Client(clients);
-        }
         // pac4j-cas dependency required
         if (hasCasClients()) {
             final CasClientBuilder casClientBuilder = new CasClientBuilder(properties);

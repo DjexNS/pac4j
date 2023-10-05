@@ -3,8 +3,6 @@ package org.pac4j.oidc.authorization.generator;
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
 import org.pac4j.core.authorization.generator.AuthorizationGenerator;
 import org.pac4j.core.context.WebContext;
 import org.pac4j.core.profile.UserProfile;
@@ -12,6 +10,7 @@ import org.pac4j.oidc.profile.keycloak.KeycloakOidcProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -43,7 +42,7 @@ public class KeycloakRolesAuthorizationGenerator implements AuthorizationGenerat
 
                 final Map<String, Object> realmRolesJsonObject = jwtClaimsSet.getJSONObjectClaim("realm_access");
                 if (realmRolesJsonObject != null) {
-                    final JSONArray realmRolesJsonArray = (JSONArray) realmRolesJsonObject.get("roles");
+                    final List<String> realmRolesJsonArray = (List<String>) realmRolesJsonObject.get("roles");
                     if (realmRolesJsonArray != null) {
                         realmRolesJsonArray.forEach(role -> profile.addRole((String) role));
                     }
@@ -52,9 +51,9 @@ public class KeycloakRolesAuthorizationGenerator implements AuthorizationGenerat
                 if (clientId != null) {
                     final Map<String, Object> resourceAccess = jwtClaimsSet.getJSONObjectClaim("resource_access");
                     if (resourceAccess != null) {
-                        final JSONObject clientRolesJsonObject = (JSONObject) resourceAccess.get(clientId);
+                        final Map clientRolesJsonObject = (Map) resourceAccess.get(clientId);
                         if (clientRolesJsonObject != null) {
-                            final JSONArray clientRolesJsonArray = (JSONArray) clientRolesJsonObject.get("roles");
+                            final List<String> clientRolesJsonArray = (List<String>) clientRolesJsonObject.get("roles");
                             if (clientRolesJsonArray != null) {
                                 clientRolesJsonArray.forEach(role -> profile.addRole((String) role));
                             }
