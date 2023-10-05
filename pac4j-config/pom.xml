@@ -26,11 +26,7 @@
             <artifactId>pac4j-cas</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>org.pac4j</groupId>
-            <artifactId>pac4j-saml-opensamlv3</artifactId>
-            <optional>true</optional>
-        </dependency>
+
         <dependency>
             <groupId>org.pac4j</groupId>
             <artifactId>pac4j-oauth</artifactId>
