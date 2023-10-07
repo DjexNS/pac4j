@@ -562,4 +562,11 @@
 		</profile>
 	</profiles>
 
+	<distributionManagement>
+		<snapshotRepository>
+			<id>functorns-nexus-repository</id>
+			<url>https://nexus.functorns.com/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 </project>
