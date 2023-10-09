@@ -2,7 +2,6 @@ package org.pac4j.core.authorization.checker;
 
 import org.pac4j.core.authorization.authorizer.*;
 import org.pac4j.core.client.Client;
-import org.pac4j.core.client.IndirectClient;
 import org.pac4j.core.credentials.Credentials;
 import org.pac4j.core.util.Pac4jConstants;
 import org.pac4j.core.context.WebContext;
@@ -73,11 +72,6 @@ public class DefaultAuthorizationChecker implements AuthorizationChecker {
     }
 
     protected String computeDefaultAuthorizers(final List<Client<? extends Credentials>> clients) {
-        for (final Client client : clients) {
-            if (client instanceof IndirectClient) {
-                return DefaultAuthorizers.CSRF_CHECK;
-            }
-        }
         return DefaultAuthorizers.NONE;
     }
 
